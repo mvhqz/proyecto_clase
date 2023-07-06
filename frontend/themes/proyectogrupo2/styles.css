@@ -1,0 +1,33 @@
+@import url('./main-layout.css');
+@import url('./views/productos-view.css');
+@import url('./views/clientes-view.css');
+@import url('./views/pedidos-view.css');
+@import url('./views/facturas-view.css');
+@import url('@fontsource/inter/index.css');    html {
+      --lumo-border-radius-s: calc(var(--lumo-size-m) / 6);
+      --lumo-border-radius-m: calc(var(--lumo-size-m) / 2);
+      --lumo-border-radius-l: var(--lumo-size-m);
+--lumo-font-family: Inter;
+
+    }
+
+    [theme~="dark"] {
+      --lumo-base-color: hsla(191, 31%, 20%, 0.49);
+      --lumo-primary-color: hsla(210, 18%, 39%, 0.49);
+      --lumo-primary-color-50pct: hsla(210, 18%, 39%, 0.5);
+      --lumo-primary-color-10pct: hsla(210, 18%, 39%, 0.1);
+      --lumo-primary-text-color: hsl(214, 100%, 94%);
+      --lumo-shade: hsl(214, 33%, 15%);
+      --lumo-shade-5pct: hsla(214, 33%, 15%, 0.05);
+      --lumo-shade-10pct: hsla(214, 33%, 15%, 0.1);
+      --lumo-shade-20pct: hsla(214, 33%, 15%, 0.2);
+      --lumo-shade-30pct: hsla(214, 33%, 15%, 0.3);
+      --lumo-shade-40pct: hsla(214, 33%, 15%, 0.4);
+      --lumo-shade-50pct: hsla(214, 33%, 15%, 0.5);
+      --lumo-shade-60pct: hsla(214, 33%, 15%, 0.6);
+      --lumo-shade-70pct: hsla(214, 33%, 15%, 0.7);
+      --lumo-shade-80pct: hsla(214, 33%, 15%, 0.8);
+      --lumo-shade-90pct: hsla(214, 33%, 15%, 0.9);
+      --lumo-body-text-color: hsla(214, 0%, 100%, 0.9);
+
+    }
