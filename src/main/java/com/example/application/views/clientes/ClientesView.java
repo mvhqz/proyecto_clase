@@ -1,7 +1,6 @@
 package com.example.application.views.clientes;
 
 import com.example.application.data.entity.Clientes;
-import com.example.application.data.service.ClientesService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -45,14 +44,12 @@ public class ClientesView extends Div implements BeforeEnterObserver {
     private final Button cancel = new Button("Cancel");
     private final Button save = new Button("Save");
 
-    private final BeanValidationBinder<Clientes> binder;
 
     private Clientes clientes;
 
-    private final ClientesService clientesService;
 
-    public ClientesView(ClientesService clientesService) {
-        this.clientesService = clientesService;
+    public ClientesView() {
+       
         addClassNames("clientes-view");
 
         // Create UI
@@ -68,9 +65,6 @@ public class ClientesView extends Div implements BeforeEnterObserver {
         grid.addColumn("nombre").setAutoWidth(true);
         grid.addColumn("telefono").setAutoWidth(true);
         grid.addColumn("direccion").setAutoWidth(true);
-        grid.setItems(query -> clientesService.list(
-                PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
-                .stream());
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 
         // when a row is selected or deselected, populate form
@@ -84,12 +78,6 @@ public class ClientesView extends Div implements BeforeEnterObserver {
         });
 
         // Configure Form
-        binder = new BeanValidationBinder<>(Clientes.class);
-
-        // Bind fields. This is where you'd define e.g. validation rules
-        binder.forField(cedula).withConverter(new StringToIntegerConverter("Only numbers are allowed")).bind("cedula");
-
-        binder.bindInstanceFields(this);
 
         cancel.addClickListener(e -> {
             clearForm();
@@ -101,8 +89,7 @@ public class ClientesView extends Div implements BeforeEnterObserver {
                 if (this.clientes == null) {
                     this.clientes = new Clientes();
                 }
-                binder.writeBean(this.clientes);
-                clientesService.update(this.clientes);
+                
                 clearForm();
                 refreshGrid();
                 Notification.show("Data updated");
@@ -112,8 +99,6 @@ public class ClientesView extends Div implements BeforeEnterObserver {
                         "Error updating the data. Somebody else has updated the record while you were making changes.");
                 n.setPosition(Position.MIDDLE);
                 n.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } catch (ValidationException validationException) {
-                Notification.show("Failed to update the data. Check again that all values are valid");
             }
         });
     }
@@ -122,19 +107,16 @@ public class ClientesView extends Div implements BeforeEnterObserver {
     public void beforeEnter(BeforeEnterEvent event) {
         Optional<Long> clientesId = event.getRouteParameters().get(CLIENTES_ID).map(Long::parseLong);
         if (clientesId.isPresent()) {
-            Optional<Clientes> clientesFromBackend = clientesService.get(clientesId.get());
-            if (clientesFromBackend.isPresent()) {
-                populateForm(clientesFromBackend.get());
-            } else {
-                Notification.show(String.format("The requested clientes was not found, ID = %s", clientesId.get()),
-                        3000, Notification.Position.BOTTOM_START);
+        }
+               // Notification.show(String.format("The requested clientes was not found, ID = %s", clientesId.get()),
+                  //      3000, Notification.Position.BOTTOM_START);
                 // when a row is selected but the data is no longer available,
                 // refresh grid
-                refreshGrid();
-                event.forwardTo(ClientesView.class);
+               // refreshGrid();
+              //  event.forwardTo(ClientesView.class);
             }
-        }
-    }
+        
+    
 
     private void createEditorLayout(SplitLayout splitLayout) {
         Div editorLayoutDiv = new Div();
@@ -184,7 +166,6 @@ public class ClientesView extends Div implements BeforeEnterObserver {
 
     private void populateForm(Clientes value) {
         this.clientes = value;
-        binder.readBean(this.clientes);
 
     }
 }

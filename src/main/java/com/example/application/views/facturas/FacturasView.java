@@ -1,7 +1,6 @@
 package com.example.application.views.facturas;
 
 import com.example.application.data.entity.SamplePerson;
-import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
@@ -37,16 +36,13 @@ import org.springframework.data.jpa.domain.Specification;
 
 @PageTitle("Facturas")
 @Route(value = "facturas", layout = MainLayout.class)
-@Uses(Icon.class)
 public class FacturasView extends Div {
 
     private Grid<SamplePerson> grid;
 
     private Filters filters;
-    private final SamplePersonService samplePersonService;
 
-    public FacturasView(SamplePersonService SamplePersonService) {
-        this.samplePersonService = SamplePersonService;
+    public FacturasView() {
         setSizeFull();
         addClassNames("facturas-view");
 
@@ -232,9 +228,7 @@ public class FacturasView extends Div {
         grid.addColumn("occupation").setAutoWidth(true);
         grid.addColumn("role").setAutoWidth(true);
 
-        grid.setItems(query -> samplePersonService.list(
-                PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)),
-                filters).stream());
+
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.addClassNames(LumoUtility.Border.TOP, LumoUtility.BorderColor.CONTRAST_10);
 

@@ -114,8 +114,6 @@ public class PedidosView extends Div {
         checkoutForm.add(header, note);
 
         checkoutForm.add(createPersonalDetailsSection());
-        checkoutForm.add(createShippingAddressSection());
-        checkoutForm.add(createPaymentInformationSection());
         checkoutForm.add(new Hr());
         checkoutForm.add(createFooter());
 
@@ -151,108 +149,6 @@ public class PedidosView extends Div {
 
         personalDetails.add(stepOne, header, name, email, phone, rememberDetails);
         return personalDetails;
-    }
-
-    private Section createShippingAddressSection() {
-        Section shippingDetails = new Section();
-        shippingDetails.addClassNames(Display.FLEX, FlexDirection.COLUMN, Margin.Bottom.XLARGE, Margin.Top.MEDIUM);
-
-        Paragraph stepTwo = new Paragraph("Checkout 2/3");
-        stepTwo.addClassNames(Margin.NONE, FontSize.SMALL, TextColor.SECONDARY);
-
-        H3 header = new H3("Shipping address");
-        header.addClassNames(Margin.Bottom.MEDIUM, Margin.Top.SMALL, FontSize.XXLARGE);
-
-        ComboBox<String> countrySelect = new ComboBox<>("Country");
-        countrySelect.setRequiredIndicatorVisible(true);
-        countrySelect.addClassNames(Margin.Bottom.SMALL);
-
-        TextArea address = new TextArea("Street address");
-        address.setMaxLength(200);
-        address.setRequiredIndicatorVisible(true);
-        address.addClassNames(Margin.Bottom.SMALL);
-
-        Div subSection = new Div();
-        subSection.addClassNames(Display.FLEX, FlexWrap.WRAP, Gap.MEDIUM);
-
-        TextField postalCode = new TextField("Postal Code");
-        postalCode.setRequiredIndicatorVisible(true);
-        postalCode.setPattern("[\\d \\p{L}]*");
-        postalCode.addClassNames(Margin.Bottom.SMALL);
-
-        TextField city = new TextField("City");
-        city.setRequiredIndicatorVisible(true);
-        city.addClassNames(Flex.GROW, Margin.Bottom.SMALL);
-
-        subSection.add(postalCode, city);
-
-        ComboBox<String> stateSelect = new ComboBox<>("State");
-        stateSelect.setRequiredIndicatorVisible(true);
-
-        stateSelect.setItems(states);
-        stateSelect.setVisible(false);
-        countrySelect.setItems(countries);
-        countrySelect
-                .addValueChangeListener(e -> stateSelect.setVisible(countrySelect.getValue().equals("United States")));
-
-        Checkbox sameAddress = new Checkbox("Billing address is the same as shipping address");
-        sameAddress.addClassNames(Margin.Top.SMALL);
-
-        Checkbox rememberAddress = new Checkbox("Remember address for next time");
-
-        shippingDetails.add(stepTwo, header, countrySelect, address, subSection, stateSelect, sameAddress,
-                rememberAddress);
-        return shippingDetails;
-    }
-
-    private Component createPaymentInformationSection() {
-        Section paymentInfo = new Section();
-        paymentInfo.addClassNames(Display.FLEX, FlexDirection.COLUMN, Margin.Bottom.XLARGE, Margin.Top.MEDIUM);
-
-        Paragraph stepThree = new Paragraph("Checkout 3/3");
-        stepThree.addClassNames(Margin.NONE, FontSize.SMALL, TextColor.SECONDARY);
-
-        H3 header = new H3("Personal details");
-        header.addClassNames(Margin.Bottom.MEDIUM, Margin.Top.SMALL, FontSize.XXLARGE);
-
-        TextField cardHolder = new TextField("Cardholder name");
-        cardHolder.setRequiredIndicatorVisible(true);
-        cardHolder.setPattern("[\\p{L} \\-]+");
-        cardHolder.addClassNames(Margin.Bottom.SMALL);
-
-        Div subSectionOne = new Div();
-        subSectionOne.addClassNames(Display.FLEX, FlexWrap.WRAP, Gap.MEDIUM);
-
-        TextField cardNumber = new TextField("Card Number");
-        cardNumber.setRequiredIndicatorVisible(true);
-        cardNumber.setPattern("[\\d ]{12,23}");
-        cardNumber.addClassNames(Margin.Bottom.SMALL);
-
-        TextField securityCode = new TextField("Security Code");
-        securityCode.setRequiredIndicatorVisible(true);
-        securityCode.setPattern("[0-9]{3,4}");
-        securityCode.addClassNames(Flex.GROW, Margin.Bottom.SMALL);
-        securityCode.setHelperText("What is this?");
-
-        subSectionOne.add(cardNumber, securityCode);
-
-        Div subSectionTwo = new Div();
-        subSectionTwo.addClassNames(Display.FLEX, FlexWrap.WRAP, Gap.MEDIUM);
-
-        Select<String> expirationMonth = new Select<>();
-        expirationMonth.setLabel("Expiration month");
-        expirationMonth.setRequiredIndicatorVisible(true);
-        expirationMonth.setItems("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
-
-        Select<String> expirationYear = new Select<>();
-        expirationYear.setLabel("Expiration year");
-        expirationYear.setRequiredIndicatorVisible(true);
-        expirationYear.setItems("22", "23", "24", "25", "26");
-
-        subSectionTwo.add(expirationMonth, expirationYear);
-
-        paymentInfo.add(stepThree, header, cardHolder, subSectionTwo);
-        return paymentInfo;
     }
 
     private Footer createFooter() {
